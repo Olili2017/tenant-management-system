@@ -1,0 +1,19 @@
+{
+    "name": "nodejs-image-starter",
+    "version": "1.0.0",
+    "description": "tenant registry",
+    "author": "Daniel Olili <olilidaniel48@gmail.com>",
+    "license": "MIT",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "keywords": [
+        "nodejs",
+        "express"
+    ],
+    "dependencies": {
+        "couchbase": "^2.6.9",
+        "express": "^4.17.1"
+    }
+}

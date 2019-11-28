@@ -3,9 +3,9 @@ version: '3'
 services:
   tenant-registry:
     build:
-      context: ./service.tenant-registry
+      context: ./service.tenant.registry
       dockerfile: Dockerfile
     volumes:
-      - ./service.tenant-registry:/usr/src/app
+      - ./service.tenant.registry:/usr/src/app
     ports:
       - 5000:80
