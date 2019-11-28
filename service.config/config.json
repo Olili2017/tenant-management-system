@@ -1,0 +1,16 @@
+{
+    "database" : {
+        "houses" : {
+            "bucket" : "houses",
+            "host" : "localhost",
+            "username" : "pidscrypt",
+            "pass" : "Pidscrypt123567"
+        },
+        "tenants" : {
+            "bucket" : "tenants",
+            "host" : "localhost",
+            "username" : "pidscrypt",
+            "pass" : "Pidscrypt123567"
+        }
+    }
+}

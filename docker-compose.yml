@@ -1,6 +1,25 @@
 version: '3'
 
 services:
+  config-server:
+    build:
+      context: ./service.config
+      dockerfile: Dockerfile
+    volumes:
+      - ./service.config:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5000:3000
+  house-registry:
+    build:
+      context: ./service.house.registry
+      dockerfile: Dockerfile
+    volumes:
+      - ./service.house.registry:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5001:3001
+    depends_on: config-server
   tenant-registry:
     build:
       context: ./service.tenant.registry
@@ -9,4 +28,5 @@ services:
       - ./service.tenant.registry:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - 5000:8000
+      - 5002:8000
+    depends_on: house-registry

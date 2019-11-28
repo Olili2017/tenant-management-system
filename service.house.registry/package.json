@@ -1,7 +1,7 @@
 {
-    "name": "nodejs-image-starter",
+    "name": "com.olili.landlord.service.house",
     "version": "1.0.0",
-    "description": "tenant registry",
+    "description": "config sever for landord system",
     "author": "Daniel Olili <olilidaniel48@gmail.com>",
     "license": "MIT",
     "main": "server.js",
@@ -10,6 +10,7 @@
     },
     "keywords": [
         "nodejs",
+        "bootstrap",
         "express"
     ],
     "dependencies": {
