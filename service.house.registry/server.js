@@ -39,8 +39,8 @@ app.patch('/house/:id', (req, res) => {
 
 app.put('/house/:id', () => {
     let house = new House()
-    if(house.remove(`${login}:${req.params.id}`)){
-        res.status(204).json({message : "Action completed."})
+    if(house.edit(`${login}:${req.params.id}`,req.body)){
+        res.status(204).json({message : "Action completed.", data : req.body})
     } else {
         res.status(500).json({message : "Internal server error"})
     }

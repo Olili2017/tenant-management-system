@@ -27,8 +27,6 @@ class House {
                   "Content-Type": "application/json"
                 }}).
             then(response => {
-                // this.database = response
-                // console.log(response.data)
                 if (response.data.message == "200 OK"){
                     const {host,username,pass,bucket} = response.data.data
                     this.database = new Database({host,username,pass}).bucket(bucket)
@@ -41,7 +39,6 @@ class House {
             })
 
         return this.database
-        // return this.database ? this.data : this.getDatabase()
     }
 
     create(house){
