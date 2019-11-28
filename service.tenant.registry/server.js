@@ -1,9 +1,15 @@
-const couchbase = require('couchbase');
 const express = require('express');
+var Database = require('./database');
+// const Couchbase = require('couchbase')
 
 const app = express();
 
 app.use(express.json());
+
+const clusters = {
+  houses : "houses",
+  tenants : "tenants"
+}
 
 // log all incoming requests
 app.use((req, res, next) => {
@@ -11,33 +17,66 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/test/rest/:id", (req,res) => {
-    console.log(`done testing rest with ID :  ${req.params.id}`);
+app.get('/', (req,res) => {
+  res.send("home here");
+})
+
+app.post('/house/create', (req,res) => {
+
+  const {rent} = req.body
+
+  try {
+    new Database()
+      .bucket(clusters.houses)
+      .insert(
+        "landlordId:houseId",
+        {vailable : true, rent : rent, create_date : new Date().getTime()},
+        (err,result) => {
+          if(err){
+            // if house exists, change house id
+            if(err.code === 12){
+              
+            }
+            res.json({message : err.code, data : err})
+          }else {
+            res.json({message : "200 OK", data : {rent : rent, available : true, create_date : new Date().getTime()}})
+          }
+        }
+      )
+  } catch (error) {
+      res.json(error)
+  }
+})
+
+app.get('/rest/test', (req,res) => {
+  try {
+
+        new Database().bucket("tenant").get(
+          'house001',
+          (err,result) => {
+            if (err) {
+              console.trace('Error: %s', err.message);
+
+            }else {
+              console.log('output : %j', result.value);
+              let  tenants = result.value.tenants;
+              tenants.push({"name" : "latest addition", "start" : "06"});
+              new Database().bucket("tenant").replace('house001',tenants, (err,res) => {
+                console.log("done with update");
+
+              })
+            }
+          }
+        );
+  } catch (err) {
+    console.error("Error: %s", err.message);
+  } finally {
+    res.send("check docs now");
+  }
 });
+
 
 app.listen(8000, () => {
-    console.log("listening on port 8000");
+  console.log("listening on port 5000");
 
 });
-
-// const cluster = new couchbase.Cluster('couchbase://localhost/');
-// cluster.authenticate('pidscrypt', 'Pidscrypt123567');
-// var bucket = cluster.openBucket('testbase');
-// var N1qlQuery = couchbase.N1qlQuery;
-
-// bucket.manager().createPrimaryIndex(function() {
-//   bucket.upsert('user:king_arthur', {
-//     'email': 'kingarthur@couchbase.com', 'interests': ['Holy Grail', 'African Swallows']
-//   },
-//   function (err, result) {
-//     bucket.get('user:king_arthur', function (err, result) {
-//       console.log('Got result: %j', result.value);
-//       bucket.query(
-//       N1qlQuery.fromString('SELECT * FROM bucketname WHERE $1 in interests LIMIT 1'),
-//       ['African Swallows'],
-//       function (err, rows) {
-//         console.log("Got rows: %j", rows);
-//       });
-//     });
-//   });
-// });
