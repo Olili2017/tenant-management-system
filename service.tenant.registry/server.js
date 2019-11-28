@@ -11,9 +11,13 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/test/rest/:id", (req,res) => {
+    console.log(`done testing rest with ID :  ${req.params.id}`);
+});
+
 app.listen(8000, () => {
     console.log("listening on port 8000");
-    
+
 });
 
 // const cluster = new couchbase.Cluster('couchbase://localhost/');
