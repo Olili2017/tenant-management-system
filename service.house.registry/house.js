@@ -14,12 +14,6 @@ class House {
 
     async getDatabase(){
         if (this.database) return this.database
-
-        // console.log("going for new object");
-
-        // return this.database
-
-
         //get config
         await axios.post(`${service.config.url}/serve/db`,
             {name : "houses"},{

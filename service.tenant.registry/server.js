@@ -13,8 +13,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.get('/tenants/:landlord')
-
 app.post('/tenant/create', (req, response) => {
 
   const {name,age,pay_day} = req.body
@@ -49,6 +47,5 @@ app.patch('/tenant/:id', (req, res) => {
 })
 
 app.listen(8000, () => {
-  console.log("listening on port 8000");
-
-});
+  console.log("listening on port 8000")
+})

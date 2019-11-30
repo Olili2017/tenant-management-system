@@ -1,3 +1,4 @@
+const axios = require('axios')
 var Database = require('../utils/database')
 
 const service = {
@@ -38,12 +39,16 @@ class Tenant {
     create (tenant){
         let isTenantCreated = false
 
-        getDatabase().then((bucket) => {
+        this.getDatabase().then((bucket) => {
+            // console.log("connected to bucket %j", bucket);
+
             bucket.insert(`${this.house}:${Math.ceil(Math.random() * 1000)}`,tenant,(err,res) => {
                 if (err){
                     return
                 } else {
-                    isTenantCreated = true
+                    console.log("got result");
+
+                    isTenantCreated = res
                     return
                 }
             })
@@ -55,8 +60,8 @@ class Tenant {
     edit (id, editedTenant){
         let isTenantEdited
 
-        getDatabase().then((bucket) => {
-            bucket.replace(id,tenant,(err,res) => {
+        this.getDatabase().then((bucket) => {
+            bucket.replace(id,editedTenant,(err,res) => {
                 if (err){
                     return
                 } else {
@@ -72,7 +77,7 @@ class Tenant {
     remove (id){
         let isTenantRemoved
 
-        getDatabase().then((bucket) => {
+        this.getDatabase().then((bucket) => {
             bucket.remove(id, (err, res) => {
                 if(err){
                     return

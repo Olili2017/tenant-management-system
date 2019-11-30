@@ -6,7 +6,8 @@
     "license": "MIT",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon server.js"
+        "start": "nodemon server.js",
+        "test": "nyc mocha ./config.test.js"
     },
     "keywords": [
         "nodejs",
@@ -15,5 +16,11 @@
     ],
     "dependencies": {
         "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^6.2.2",
+        "nyc": "^14.1.1",
+        "sinon": "^7.5.0"
     }
 }
