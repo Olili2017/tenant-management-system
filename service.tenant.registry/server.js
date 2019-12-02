@@ -13,6 +13,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('/',(req,res) => {
+  res.send("Hello! you have reached the tenant service")
+})
+
 app.post('/tenant/create', (req, response) => {
 
   const {name,age,pay_day} = req.body
@@ -47,5 +51,5 @@ app.patch('/tenant/:id', (req, res) => {
 })
 
 app.listen(8000, () => {
-  console.log("listening on port 8000")
+  console.log("Tenant listening on local - 8000, docker - 5002")
 })

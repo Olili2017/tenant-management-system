@@ -1,8 +1,10 @@
 version: '3'
 
 services:
-  database-server:
-    image: couchbase:latest
+  # database-server:
+  #   image: couchbase:latest
+  #   ports:
+  #     - 8091:8091
   config-server:
     build:
       context: ./service.config
@@ -34,4 +36,15 @@ services:
       - 5002:8000
     depends_on:
       - house-registry
+      - config-server
+  landlord-registry:
+    build:
+      context: ./service.landlord.registry
+      dockerfile: Dockerfile
+    volumes:
+      - ./service.landlord.registry:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5003:5003
+    depends_on:
       - config-server

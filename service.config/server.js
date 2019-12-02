@@ -6,7 +6,9 @@ const app = express()
 app.use(express.json())
 
 app.use((req,res,next) => {
-    console.log(`Incoming ${req.method} -- from ${req.ip}`)
+    res.header("Access-Control-Allow-Origin", "172.22.0.2")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept")
+    console.log(`Incoming ${req.method} -- from ${req.ip} with body ${JSON.stringify(req.body)}`)
     next()
 })
 
