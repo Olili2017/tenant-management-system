@@ -1,5 +1,6 @@
 const express = require('express')
-const Landlord = require('./src/models/landlord')
+const axios = require('axios')
+const landlord = require('./src/models/landlord')
 
 const app = express()
 
@@ -11,16 +12,20 @@ app.use((req,res,next) => {
 })
 
 app.get('/', (req,res) => {
-    res.send("Landlord")
+    axios.post('http://localhost:5000/serve/db', {name : "tenants"})
+        .then(result => {
+            res.json(result.data.data)
+        })
+        .catch(err => {
+            res.json(err)
+        })
+    // res.send("landlord")
 })
 
 app.post('/landlord/create', (req,res) => {
-
-
-    new Landlord().create(req.body).then(result => {
+    landlord.create(req.body).then(result => {
         res.json(result)
     })
-    // res.json(landlord)
 })
 
 app.put('/landlord/:id', (req,res) => {
@@ -28,11 +33,8 @@ app.put('/landlord/:id', (req,res) => {
 })
 
 app.patch('/landlord/:id', (req,res) => {
-    // TODO remove customer
-    new Landlord().remove(req.params.id)
+    landlord.remove(req.params.id)
         .then(result => {
-            // result;
-            // res.json({message : "200 Ok", data : "landlord removed successfully"})
             res.json(result)
         })
         .catch(err => {
@@ -41,7 +43,7 @@ app.patch('/landlord/:id', (req,res) => {
 })
 
 app.get('/landlord/:id', (req,res) => {
-    new Landlord().get(req.params.id).then(result => {
+    landlord.get(req.params.id).then(result => {
         res.json(result)
      }).catch(err => {
         res.json(err)

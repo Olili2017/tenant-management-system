@@ -87,5 +87,5 @@ class Landlord {
         return true
     }
 }
-
-module.exports = Landlord
+const landlord = new Landlord()
+module.exports = landlord

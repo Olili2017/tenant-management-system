@@ -12,6 +12,10 @@ app.use((req,res,next) => {
     next()
 })
 
+app.get('/', (req,res) => {
+    res.json("config")
+})
+
 app.post('/serve/:need', (req,res) => {
 
     let need = req.params.need;

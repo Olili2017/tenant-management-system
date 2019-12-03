@@ -1,4 +1,5 @@
-const couchbase = require('couchbase');
+const couchbase = require('couchbase')
+const axios = require('axios')
 
 class Database {
 
@@ -92,6 +93,10 @@ class Database {
             .catch(err => {output = err})
 
         return output
+    }
+
+    getOpt(){
+        return this.options
     }
 }
 
