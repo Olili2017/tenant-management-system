@@ -25,9 +25,12 @@ class Database {
     async insert (id, document){
 
         let output = null
+        let bucket = this.bucket()
 
         await new Promise((resolve, reject) => {
-            this.bucket().insert(id,document, function(err, result){
+
+            bucket.insert(id,document, function(err, result){
+
                 if (err){
                     let message = null
                     if (err.code == 12) {
@@ -35,10 +38,12 @@ class Database {
                     }else {
                         message = {message : err.message}
                     }
+
                     reject(message)
                 }
 
                 if (result){
+
                     resolve(result)
                 }
             })
@@ -54,10 +59,10 @@ class Database {
 
     async get (id){
 
-        let output = null
+        let output = null, bucket = this.bucket()
 
         await new Promise((resolve,reject) => {
-            this.bucket().get(id, function (err,result){
+            bucket.get(id, function (err,result){
                 if (err){
                     reject({message : err.message})
                 }
@@ -75,9 +80,9 @@ class Database {
     }
 
     async remove (id){
-        let output = null
+        let output = null, bucket = this.bucket()
         await new Promise((resolve, reject) => {
-            this.bucket().remove(id, (err, res) => {
+            bucket.remove(id, (err, res) => {
                 if (err){
                     output = err
                     reject({message : err.message})
@@ -94,8 +99,45 @@ class Database {
         return output
     }
 
+
+    // merge and replace old values. add value if not exists
+    mergeObjects (current, edited){
+        var newObj = {}
+        for (var attrname in current) { newObj[attrname] = current[attrname] }
+        for (var attrname in edited) { newObj[attrname] = edited[attrname] }
+
+        return newObj
+    }
+
+    async replace(id, currentData, newData){
+        let output = null
+        let replacement = this.mergeObjects(currentData, newData)
+        let bucket = this.bucket()
+
+        await new Promise(function(resolve, reject){
+
+            bucket.replace(id,replacement,(err, editedObj) => {
+                if (err){
+                    console.log(err);
+
+                    reject(err.message)
+                }
+
+                if (editedObj){
+                    console.log(editedObj);
+
+                    resolve({...editedObj, ...replacement})
+                }
+            })
+        }).then(newObj => {
+            output = newObj
+        }).catch(err => { output = err})
+
+        return output
+    }
+
 }
 
 const database = new Database({host : 'localhost', username: 'pidscrypt', pass : 'Pidscrypt123567', bucket : 'properties'})
 
-module.exports = Database
+module.exports = database
