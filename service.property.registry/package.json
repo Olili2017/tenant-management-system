@@ -1,0 +1,21 @@
+{
+    "name": "com.olili.property.service.house",
+    "version": "1.0.0",
+    "description": "config sever for landord system",
+    "author": "Daniel Olili <olilidaniel48@gmail.com>",
+    "license": "MIT",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "keywords": [
+        "nodejs",
+        "bootstrap",
+        "express"
+    ],
+    "dependencies": {
+        "axios": "^0.19.0",
+        "couchbase": "^2.6.9",
+        "express": "^4.17.1"
+    }
+}
