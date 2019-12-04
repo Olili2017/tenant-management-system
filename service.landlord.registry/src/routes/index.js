@@ -34,6 +34,10 @@ const register = (app) => {
         })
     })
 
+    // app.patch('/landlord/:id/create/property', (req, res) => {
+
+    // })
+
 }
 
 exports = module.exports = { register }

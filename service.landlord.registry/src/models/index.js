@@ -46,7 +46,16 @@ class Landlord {
             })
 
         return insert
+    }
 
+    async addProperty(landlordId, propertyId){
+        var output = null
+        await this.edit(landlordId, { properties : propertyId }).then(edited => {
+            output = edited
+        }).catch(err => {
+            output = err
+        })
+        return output
     }
 
     async remove (id){
@@ -57,13 +66,11 @@ class Landlord {
             .catch(err => {
                 output = err
             })
-
         return output
     }
 
     async get (id){
         let landlord = null
-
         await new Promise(function (resolve,reject){
             database.get(id).then(result => {
                 landlord = result
@@ -73,7 +80,6 @@ class Landlord {
                 reject(landlord)
             })
         })
-
         return landlord
     }
 

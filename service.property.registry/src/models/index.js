@@ -34,6 +34,12 @@ class Property {
             if (response.message){
                 reject(response)
             }else {
+                // FIXME move url to global scope
+                // axios.put(`http://localhost:5003/landlord/${property.landlord}`, { properties : property.id })
+                //     .then(result => { console.log("sent prop tolandlord")})
+                //     .catch(err => { console.log("error sending property to landlord");
+                //     })
+
                 database.get(property.id).then(res => {  resolve(res) })
             }
         }).then(cas => {
