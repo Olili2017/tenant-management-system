@@ -2,24 +2,15 @@ const couchbase = require('couchbase')
 
 class Database {
 
-    constructor(options){
-        this.options = options
-    }
-
     bucket (){
-        if (!this.options){
-            return null
-        }
 
-        const {host, username, pass, bucket} = this.options
-
-        if (!host || !username || !pass || !bucket){
+        if (!this.host || !this.username || !this.pass || !this.bucketName){
             return false
         }
 
-        var cluster = new couchbase.Cluster(`couchbase://${this.options.host}/`);
-        cluster.authenticate(this.options.username, this.options.pass);
-        return cluster.openBucket(bucket);
+        var cluster = new couchbase.Cluster(`couchbase://${this.host}/`);
+        cluster.authenticate(this.username, this.pass);
+        return cluster.openBucket(this.bucketName);
     }
 
     async insert (id, document){
@@ -59,10 +50,13 @@ class Database {
 
     async get (id){
 
-        let output = null, bucket = this.bucket()
+
+        let output = null
+
+        var couchbase = this.bucket()
 
         await new Promise((resolve,reject) => {
-            bucket.get(id, function (err,result){
+            couchbase.get(id, function (err,result){
                 if (err){
                     reject({message : err.message})
                 }
@@ -98,7 +92,6 @@ class Database {
 
         return output
     }
-
 
     // merge and replace old values. add value if not exists
     mergeObjects (current, edited){
@@ -136,8 +129,28 @@ class Database {
         return output
     }
 
+    // start properties
+
+    setHost(host) {
+        this.host = host
+    }
+
+    setUser(username){
+        this.username = username
+    }
+
+    setPass(pass){
+        this.pass = pass
+    }
+
+    setBucketName(bucketName){
+        this.bucketName = bucketName
+    }
+
+    // stop properties
+
 }
 
-const database = new Database({host : 'localhost', username: 'pidscrypt', pass : 'Pidscrypt123567', bucket : 'properties'})
+const database = new Database()
 
-module.exports = database
+exports = module.exports = database

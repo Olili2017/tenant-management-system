@@ -1,4 +1,14 @@
-const database = require('../utils/Database')
+const database = require('../database')
+const axios = require('axios')
+
+axios.get('http://localhost:5000/serve/service.properties.registry').then(config => {
+    database.setHost(config.data.host)
+    database.setUser(config.data.username)
+    database.setPass(config.data.pass)
+    database.setBucketName(config.data.bucket)
+}).catch(err => {
+    console.log(`Error gettting config: ${JSON.stringify(err)}`)
+})
 
 class Property {
     async create(property){
@@ -49,8 +59,6 @@ class Property {
 
         let output = null
 
-        // let replacement = this.mergeObjects(currentDocument, editedfields);
-
         await new Promise(function (resolve, reject) {
 
             database.get(id).then(currentDocument => {
@@ -67,14 +75,6 @@ class Property {
 
     }
 
-// merge and replace old values. add value if not exists
-    mergeObjects (current, edited){
-        var newObj = {}
-        for (var attrname in current) { newObj[attrname] = current[attrname] }
-        for (var attrname in edited) { newObj[attrname] = edited[attrname] }
-
-        return newObj
-    }
 }
 
 const property = new Property
