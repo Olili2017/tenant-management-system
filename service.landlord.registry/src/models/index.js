@@ -1,7 +1,16 @@
 const axios = require('axios')
-var Database = require('../utils/database')
+const database = require('../database')
 
-const options = {host : "localhost", username : "pidscrypt", pass : "Pidscrypt123567", bucket : "houses"}
+
+axios.get('http://localhost:5000/serve/service.landlord.registry').then(config => {
+    database.setHost(config.data.host)
+    database.setUser(config.data.username)
+    database.setPass(config.data.pass)
+    database.setBucketName(config.data.bucket)
+
+}).catch(err => {
+    console.log(`Error gettting config: ${JSON.stringify(err)}`)
+})
 
 class Landlord {
     async create(landlord){
@@ -27,7 +36,7 @@ class Landlord {
         }
 
 
-        await new Database(options)
+        await database
             .insert(landlord.email, landlord)
             .then(result => {
                 insert = result
@@ -42,7 +51,7 @@ class Landlord {
 
     async remove (id){
         let output = null
-        await new Database(options).remove(id).then(res => {
+        await database.remove(id).then(res => {
                 output = res
             })
             .catch(err => {
@@ -56,7 +65,7 @@ class Landlord {
         let landlord = null
 
         await new Promise(function (resolve,reject){
-            new Database(options).get(id).then(result => {
+            database.get(id).then(result => {
                 landlord = result
                 resolve(result)
             }).catch(err => {
@@ -68,7 +77,25 @@ class Landlord {
         return landlord
     }
 
+    async edit(id, editedfields){
 
+        let output = null
+
+        await new Promise(function (resolve, reject) {
+
+            database.get(id).then(currentDocument => {
+                database.replace(id,currentDocument, editedfields)
+                    .then(edited => {
+                        resolve(edited)
+                    }).catch(err => {
+                        reject(err)
+                    })
+            })
+        }).then(out => { output = out}).catch(out => output = out)
+
+        return output
+
+    }
     validateAllObjectValuesAreCorrectFormat (landlord){
 
         // validate input types
