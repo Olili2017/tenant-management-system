@@ -21,21 +21,18 @@ class Database {
         await new Promise((resolve, reject) => {
 
             bucket.insert(id,document, function(err, result){
-
                 if (err){
                     let message = null
-                    if (err.code == 12) {
-                        message = {message : "Document ID already exists in database"}
-                    }else {
+                    if (err.code == 12) { message = {message : "Document ID already exists in database"} }
+                    else {
                         message = {message : err.message}
                     }
-
                     reject(message)
                 }
-
                 if (result){
-
-                    resolve(result)
+                    bucket.get(id, (err, newDoc) => {
+                        resolve(newDoc)
+                    })
                 }
             })
         }).then(res => {
@@ -49,8 +46,6 @@ class Database {
     }
 
     async get (id){
-
-
         let output = null
 
         var couchbase = this.bucket()
@@ -95,9 +90,27 @@ class Database {
 
     // merge and replace old values. add value if not exists
     mergeObjects (current, edited){
+
         var newObj = {}
-        for (var attrname in current) { newObj[attrname] = current[attrname] }
-        for (var attrname in edited) { newObj[attrname] = edited[attrname] }
+        try {
+            for (var attrname in current) {
+                typeof newObj[attrname] === 'object' ?
+                newObj[attrname].push(current[attrname]):
+                newObj[attrname] = current[attrname]
+            }
+            for (var attrname in edited) {
+                typeof newObj[attrname] === 'object' ?
+                newObj[attrname].push(edited[attrname]) :
+                newObj[attrname] = edited[attrname] }
+        }catch (ex) {
+            newObj = {}
+
+            for (var attrname in current) {
+                newObj[attrname] = current[attrname]
+            }
+            for (var attrname in edited) {
+                newObj[attrname] = edited[attrname] }
+        }
 
         return newObj
     }
@@ -111,14 +124,10 @@ class Database {
 
             bucket.replace(id,replacement,(err, editedObj) => {
                 if (err){
-                    console.log(err);
-
                     reject(err.message)
                 }
 
                 if (editedObj){
-                    console.log(editedObj);
-
                     resolve({...editedObj, ...replacement})
                 }
             })
