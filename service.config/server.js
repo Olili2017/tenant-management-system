@@ -12,9 +12,11 @@ app.use((req,res,next) => {
     next()
 })
 
-app.get('/', (req,res) => {
-    res.json("config")
+app.get('/serve/:service', (req,res) => {
+    res.json(getConfig(req.params.service))
 })
+
+const getConfig = (service) => config.services[service].db || { message : "service unknown"}
 
 app.post('/serve/:need', (req,res) => {
 
@@ -42,6 +44,6 @@ app.post('/serve/:need', (req,res) => {
 })
 
 
-app.listen(3000, () => {
-    console.log("config server listening on : 3000")
+app.listen(5000, () => {
+    console.log("config server listening on : 5000")
 })
