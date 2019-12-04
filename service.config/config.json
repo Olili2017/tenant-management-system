@@ -5,7 +5,18 @@
                 "bucket" : "properties",
                 "host" : "localhost",
                 "username" : "properties",
-                "pass" : "Pr0p3rt132"
+                "pass" : "Pr0p3rt!32"
+            },
+            "server" : {
+                "port" : 3000
+            }
+        },
+        "service.landlord.registry" : {
+            "db" : {
+                "bucket" : "landlords",
+                "host" : "localhost",
+                "username" : "landlords",
+                "pass" : "L@nd10rd2"
             },
             "server" : {
                 "port" : 3000
