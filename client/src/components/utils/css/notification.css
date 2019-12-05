@@ -1,0 +1,32 @@
+div.noti-container {
+    /* position: absolute; */
+    width: 100%;
+    border: 1px solid #eaeaee;
+    border-radius: 2px;
+    margin-top: 1em;
+    box-shadow: 1px 0px 2px #02203c;
+}
+
+.noti-container > .noti-top {
+    /* position: absolute; */
+    height: 4px;
+    width: inherit;
+    background-color: #02203c;
+    border-radius: 2px 2px 0px 0px;
+    content: "";
+}
+
+.noti-container > .noti-body > p {
+    padding: .3em;
+    font-size: small;
+    margin-bottom: 8px;
+}
+
+.noti-container > .noti-foot > p {
+    font-size: .6em;
+    color: grey;
+    padding: 0px;
+    margin-bottom: 0px;
+    margin-inline-end: 1em;
+    text-transform: capitalize;
+}

@@ -1,0 +1,29 @@
+.noti-panel {
+    width: 100%;
+    position: absolute;
+}
+
+.notifications-container {
+    height: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: .5em;
+}
+
+.noti-panel-header-container {
+    border-radius: 0px 0px 5px 5px;
+    align-content: center;
+    background-image:
+    linear-gradient(122deg,rgba(245,33,33,0) 82%,hsla(0,0%,100%,.08) 0),
+    linear-gradient(108deg,rgba(27,0,255,0) 80%,hsla(0,0%,100%,.08) 0),
+    linear-gradient(101deg,rgba(255,33,33,0) 79%,hsla(0,0%,100%,.08) 0),
+    radial-gradient(circle,#02203c 0,#02203c 100%);
+font-family: 'Roboto Mono',monospace;
+}
+
+.noti-panel-header-container > header {
+    text-align: center;
+    text-transform: uppercase;
+    color: #919191;
+    font-weight: 600;
+}
