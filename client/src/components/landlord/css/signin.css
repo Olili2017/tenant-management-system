@@ -1,0 +1,36 @@
+.signin {
+    background: #02203c;
+    background-image:
+        linear-gradient(122deg,hsla(0,0%,100%,.08) 40%,transparent 40%),
+        linear-gradient(118deg,hsla(0,0%,100%,.08) 38%,transparent 38%);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+
+.signin > div > div {
+   margin: 10% auto;
+}
+
+.signin input {
+    width: 70%;
+    border-radius: 0px;
+    background-color: hsla(0,0%,100%,.03);
+    background-size: 20px;
+    background-position-y: center;
+    background-position: 4px;
+    background-repeat: no-repeat;
+    padding-left: 30px;
+}
+
+.signin input[type="password"] {
+    background-image: url('./../../password.png');
+}
+
+.signin input[type="button"] {
+    background-color: #056bca;
+    border: 0px;
+    text-transform: uppercase;
+    color: #eaeaea;
+}
