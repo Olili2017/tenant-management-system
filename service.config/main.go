@@ -2,6 +2,7 @@ package main
 
 import (
 	"io/ioutil"
+
 	"github.com/Olili2017/tenant-management-system/service.config/domain"
 )
 
